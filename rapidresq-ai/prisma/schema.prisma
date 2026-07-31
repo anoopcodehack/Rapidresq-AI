@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ResponderStatus {
+  AVAILABLE
+  BUSY
+  OFFLINE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RequestStatus {
+  PENDING
+  ASSIGNED
+  ON_THE_WAY
+  RESOLVED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  requests EmergencyRequest[]
+}
+
+model Responder {
+  id          Int             @id @default(autoincrement())
+  name        String
+  phone       String
+  vehicleType String
+  status      ResponderStatus @default(AVAILABLE)
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime        @default(now())
+
+  activeRequests EmergencyRequest[] @relation("AssignedResponder")
+  dispatches     DispatchHistory[]
+
+  @@index([status])
+}
+
+model EmergencyRequest {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  location    String
+  latitude    Float?
+  longitude   Float?
+  description String
+
+  priority Priority      @default(LOW)
+  status   RequestStatus @default(PENDING)
+
+  assignedResponderId Int?
+  assignedResponder    Responder? @relation("AssignedResponder", fields: [assignedResponderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  dispatches DispatchHistory[]
+
+  @@index([status])
+  @@index([priority])
+  @@index([assignedResponderId])
+  @@index([createdAt])
+}
+
+model DispatchHistory {
+  id            Int       @id @default(autoincrement())
+  requestId     Int
+  request       EmergencyRequest @relation(fields: [requestId], references: [id])
+  responderId   Int
+  responder     Responder @relation(fields: [responderId], references: [id])
+  assignedTime  DateTime  @default(now())
+  completedTime DateTime?
+}
