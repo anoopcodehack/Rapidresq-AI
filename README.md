@@ -1,4 +1,4 @@
-# RapidResQ AI — Intelligent Emergency Request & Dispatch Management Backend
+# 🚨RapidResQ AI — Intelligent Emergency Request & Dispatch Management Backend
 
 A backend system that accepts emergency requests, classifies urgency using
 Google Gemini (with a rule-based fallback), queues requests by priority in
