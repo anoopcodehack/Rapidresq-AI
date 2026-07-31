@@ -25,15 +25,35 @@ async function addToQueue(requestId, priority) {
 }
 
 // Return pending request IDs ordered CRITICAL -> LOW
+// async function getPendingQueue() {
+//   if (!isRedisUp()) {
+//     logger.warn("Redis down — cannot read pending queue");
+//     return [];
+//   }
+//   try {
+//     // highest score first = highest priority first
+//     const ids = await redisClient.zRevRange(QUEUE_KEY, 0, -1);
+//     return ids.map((id) => parseInt(id, 10));
+//   } catch (err) {
+//     logger.error(`Failed to read Redis queue: ${err.message}`);
+//     return [];
+//   }
+// }
 async function getPendingQueue() {
   if (!isRedisUp()) {
     logger.warn("Redis down — cannot read pending queue");
     return [];
   }
+
   try {
-    // highest score first = highest priority first
-    const ids = await redisClient.zRange(QUEUE_KEY, 0, -1, { REV: true });
-    return ids.map((id) => parseInt(id, 10));
+    const ids = await redisClient.sendCommand([
+      "ZREVRANGE",
+      QUEUE_KEY,
+      "0",
+      "-1",
+    ]);
+
+    return ids.map(id => Number(id));
   } catch (err) {
     logger.error(`Failed to read Redis queue: ${err.message}`);
     return [];

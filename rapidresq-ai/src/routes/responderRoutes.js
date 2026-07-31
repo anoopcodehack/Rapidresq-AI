@@ -1,8 +1,10 @@
 const express = require("express");
-const controller = require("../controllers/responderController");
+const responderController = require("../controllers/responderController");
+const emergencyController = require("../controllers/emergencyController");
 
 const router = express.Router();
 
-router.get("/", controller.listResponders);
+router.get("/", responderController.listResponders);
+router.post("/assign", emergencyController.assignResponderHandler);
 
 module.exports = router;

@@ -37,7 +37,7 @@ async function classifyPriority(description) {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
     const prompt = `Classify this emergency into exactly one word: LOW, MEDIUM, HIGH, or CRITICAL.\nDescription: "${description}"\nRespond with only the single word, nothing else.`;
 
     const result = await withTimeout(model.generateContent(prompt), AI_TIMEOUT_MS);
