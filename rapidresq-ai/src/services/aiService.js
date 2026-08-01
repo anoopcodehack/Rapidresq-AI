@@ -5,7 +5,7 @@ const genAI = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null;
 
-const AI_TIMEOUT_MS = parseInt(process.env.AI_TIMEOUT_MS, 10) || 2000;
+const AI_TIMEOUT_MS = parseInt(process.env.AI_TIMEOUT_MS, 10) || 5000;
 
 const VALID_PRIORITIES = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
 

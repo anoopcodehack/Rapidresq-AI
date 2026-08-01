@@ -7,8 +7,7 @@ const CACHE_TTL_SECONDS = 60;
 
 const PRIORITY_SCORE = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
 
-// Add a request to the Redis priority queue. Never throws — logs and
-// continues if Redis is down, so request creation still succeeds.
+
 async function addToQueue(requestId, priority) {
   if (!isRedisUp()) {
     logger.error(`Redis down — request ${requestId} saved to DB only, not queued`);
