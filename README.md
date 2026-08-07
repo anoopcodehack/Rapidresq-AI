@@ -139,6 +139,8 @@ Full request/response contracts in [`docs/API_DOCUMENTATION.md`](./docs/API_DOCU
 ---
 
 ## 🎬 Demo Walkthrough
+<img width="1906" height="988" alt="image" src="https://github.com/user-attachments/assets/d41c881c-d6be-4be8-9759-c5b3adf56103" />
+
 
 1. **Create** a request → watch Gemini assign `CRITICAL`
 2. **Check the queue** → it's already sorted, no manual sorting needed
@@ -146,6 +148,8 @@ Full request/response contracts in [`docs/API_DOCUMENTATION.md`](./docs/API_DOCU
 4. **Watch the event fire** → `dispatch_assigned` in the console/Socket.IO client
 5. **Progress the lifecycle** → `ON_THE_WAY` → `RESOLVED` → responder auto-frees to `AVAILABLE`
 6. **Hit `/classify` directly** → same AI engine, standalone
+   
+   https://drive.google.com/file/d/1W03nt8puUDVBR7cwcvi8NdgODu-xmhSX/view?usp=sharing
 
 ---
 
